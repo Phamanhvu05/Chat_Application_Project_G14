@@ -1,0 +1,128 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messenger Pro</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Giao diện đăng nhập/đăng ký -->
+    <div id="auth" class="auth">
+      <div class="auth-form">
+        <h1>Messenger Pro</h1>
+        <input type="text" id="username" placeholder="Tên người dùng" required>
+        <input type="password" id="password" placeholder="Mật khẩu" required>
+        <button id="auth-btn">Đăng Nhập</button>
+        <p class="switch-auth">Chưa có tài khoản? <span id="switch-link">Đăng Ký</span></p>
+      </div>
+    </div>
+
+    <!-- Giao diện phòng chờ -->
+    <div id="lobby" class="lobby" style="display: none;">
+      <div class="lobby-header">
+        <h2>Messenger Pro</h2>
+        <i class="fas fa-search search-icon" id="search-icon"></i>
+        <i class="fas fa-user user-icon" id="user-icon"></i>
+        <div id="search-container" class="search-container" style="display: none;">
+          <input type="text" id="search-user" placeholder="Tìm tên hoặc số điện thoại...">
+        </div>
+      </div>
+      <div class="lobby-content">
+        <div class="online-section">
+          <div class="section-title">Bạn bè online</div>
+          <div id="online-users" class="online-users"></div>
+        </div>
+        <div class="notifications-section">
+          <div class="section-title">Thông báo</div>
+          <div id="notifications" class="notifications"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Giao diện chat riêng -->
+    <div id="chat-room" class="chat-room" style="display: none;">
+      <div class="chat-header">
+        <i class="fas fa-arrow-left back-btn" id="back-btn"></i>
+        <div class="chat-info">
+          <img class="avatar" id="chat-header-avatar" src="">
+          <span id="chat-partner"></span>
+          <span class="chat-status">Đang hoạt động</span>
+        </div>
+        <i class="fas fa-ellipsis-v more-btn" id="more-btn"></i>
+      </div>
+      <div id="chat-messages" class="chat-messages"></div>
+      <div class="chat-input-area">
+        <div class="attachment-options">
+          <i class="fas fa-plus add-btn" id="add-btn"></i>
+          <div id="attachment-menu" class="attachment-menu" style="display: none;">
+            <div class="menu-item" id="file-option"><i class="fas fa-paperclip"></i> Tệp</div>
+          </div>
+          <input type="file" id="file-upload" style="display: none;" accept="*/*">
+        </div>
+        <input type="text" id="chat-input" placeholder="Nhắn tin..." data-placeholder="">
+        <div class="mic-options">
+          <i class="fas fa-microphone mic-btn" id="mic-btn"></i>
+        </div>
+        <button id="send-btn" class="send-btn">
+          <i class="far fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Giao diện chỉnh sửa profile -->
+    <div id="profile-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Thông tin cá nhân</h2>
+          <i class="fas fa-times close-btn" id="close-btn"></i>
+        </div>
+        <div class="modal-body">
+          <div class="avatar-section">
+            <img id="profile-avatar" src="https://i.imgur.com/1QbL8kM.png" alt="Avatar" class="avatar-preview">
+            <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+            <button id="change-avatar-btn">Thay đổi ảnh</button>
+          </div>
+          <div class="profile-fields">
+            <label>Tên:</label>
+            <input type="text" id="profile-name" placeholder="Nhập tên của bạn">
+            <label>Số điện thoại:</label>
+            <input type="tel" id="profile-phone" placeholder="Nhập số điện thoại">
+            <label>Thông tin cá nhân:</label>
+            <textarea id="profile-bio" placeholder="Nhập thông tin cá nhân"></textarea>
+          </div>
+          <button id="save-profile-btn">Lưu thay đổi</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Giao diện profile của người kia -->
+    <div id="partner-profile-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Thông tin bạn chat</h2>
+          <i class="fas fa-times close-btn" id="partner-close-btn"></i>
+        </div>
+        <div class="modal-body">
+          <div class="avatar-section">
+            <img id="partner-profile-avatar" src="https://i.imgur.com/1QbL8kM.png" alt="Avatar" class="avatar-preview">
+          </div>
+          <div class="profile-fields">
+            <label>Tên:</label>
+            <input type="text" id="partner-profile-name" readonly>
+            <label>Số điện thoại:</label>
+            <input type="tel" id="partner-profile-phone" readonly>
+            <label>Thông tin cá nhân:</label>
+            <textarea id="partner-profile-bio" readonly></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
