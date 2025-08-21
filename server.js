@@ -40,3 +40,12 @@ io.on('connection', (socket) => {
     onlineUsers.add(data.username);
     io.emit('updateOnlineUsers', Array.from(onlineUsers));
   });
+// Tìm kiếm người dùng bằng tên hoặc số điện thoại
+  socket.on('searchUsersByNameOrPhone', (query) => {
+    const filteredResults = Object.entries(profiles).filter(([username, profile]) => {
+      const nameMatch = profile.name.toLowerCase().includes(query);
+      const phoneMatch = profile.phone && profile.phone.toLowerCase().includes(query);
+      return nameMatch || phoneMatch;
+    }).map(([username, profile]) => ({ username, ...profile }));
+    socket.emit('searchResultsByNameOrPhone', filteredResults);
+  });
