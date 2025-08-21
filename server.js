@@ -49,3 +49,7 @@ io.on('connection', (socket) => {
     }).map(([username, profile]) => ({ username, ...profile }));
     socket.emit('searchResultsByNameOrPhone', filteredResults);
   });
+// Lấy tất cả profile
+  socket.on('getAllProfiles', () => {
+    socket.emit('allProfiles', profiles);
+  });
