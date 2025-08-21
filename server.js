@@ -22,3 +22,14 @@ io.on('connection', (socket) => {
       socket.emit('registerError', { message: 'Tên người dùng đã tồn tại' });
     }
   });
+ // Xử lý đăng nhập
+  socket.on('login', (data) => {
+    if (users[data.username] && users[data.username].password === data.password) {
+      socket.username = data.username;
+      onlineUsers.add(data.username);
+      io.emit('updateOnlineUsers', Array.from(onlineUsers));
+      socket.emit('loginSuccess', { username: data.username });
+    } else {
+      socket.emit('loginError', { message: 'Tên người dùng hoặc mật khẩu không đúng' });
+    }
+  });
