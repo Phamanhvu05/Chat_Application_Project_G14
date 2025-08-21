@@ -53,3 +53,15 @@ io.on('connection', (socket) => {
   socket.on('getAllProfiles', () => {
     socket.emit('allProfiles', profiles);
   });
+ // Xử lý tin nhắn riêng
+  socket.on('privateMessage', (data) => {
+    const recipientSocket = Array.from(io.sockets.sockets).find(([id, sock]) => sock.username === data.recipient);
+    if (recipientSocket) {
+      io.to(recipientSocket[0]).emit('privateMessage', data);
+      io.to(socket.id).emit('privateMessage', data);
+      if (data.recipient !== data.user) {
+        io.to(recipientSocket[0]).emit('newMessageNotification', data);
+        socket.emit('newMessageNotification', data);
+      }
+    }
+  });
