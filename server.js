@@ -70,3 +70,10 @@ io.on('connection', (socket) => {
     const recipientSocket = Array.from(io.sockets.sockets).find(([id, sock]) => sock.username === data.recipient);
     if (recipientSocket) {
       io.to(recipientSocket[0]).emit('privateFile', data);
+io.to(socket.id).emit('privateFile', data);
+      if (data.recipient !== data.user) {
+        io.to(recipientSocket[0]).emit('newMessageNotification', data);
+        socket.emit('newMessageNotification', data);
+      }
+    }
+  });
