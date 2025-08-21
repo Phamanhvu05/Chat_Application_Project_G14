@@ -65,3 +65,8 @@ io.on('connection', (socket) => {
       }
     }
   });
+  // Xử lý file riêng
+  socket.on('privateFile', (data) => {
+    const recipientSocket = Array.from(io.sockets.sockets).find(([id, sock]) => sock.username === data.recipient);
+    if (recipientSocket) {
+      io.to(recipientSocket[0]).emit('privateFile', data);
