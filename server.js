@@ -89,3 +89,15 @@ io.to(socket.id).emit('privateFile', data);
       }
     }
   });
+// Xử lý audio riêng
+  socket.on('privateAudio', (data) => {
+    const recipientSocket = Array.from(io.sockets.sockets).find(([id, sock]) => sock.username === data.recipient);
+    if (recipientSocket) {
+      io.to(recipientSocket[0]).emit('privateAudio', data);
+      io.to(socket.id).emit('privateAudio', data);
+      if (data.recipient !== data.user) {
+        io.to(recipientSocket[0]).emit('newMessageNotification', data);
+        socket.emit('newMessageNotification', data);
+      }
+    }
+  });
