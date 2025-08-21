@@ -77,3 +77,15 @@ io.to(socket.id).emit('privateFile', data);
       }
     }
   });
+ // Xử lý ảnh riêng
+  socket.on('privateImage', (data) => {
+    const recipientSocket = Array.from(io.sockets.sockets).find(([id, sock]) => sock.username === data.recipient);
+    if (recipientSocket) {
+      io.to(recipientSocket[0]).emit('privateImage', data);
+      io.to(socket.id).emit('privateImage', data);
+      if (data.recipient !== data.user) {
+        io.to(recipientSocket[0]).emit('newMessageNotification', data);
+        socket.emit('newMessageNotification', data);
+      }
+    }
+  });
