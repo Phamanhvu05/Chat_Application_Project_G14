@@ -13,3 +13,12 @@ const profiles = {}; // Lưu thông tin profile của người dùng
 
 io.on('connection', (socket) => {
   console.log('Người dùng kết nối:', socket.id);
+ // Xử lý đăng ký
+  socket.on('register', (data) => {
+    if (!users[data.username]) {
+      users[data.username] = { password: data.password };
+      socket.emit('registerSuccess', { message: 'Đăng ký thành công' });
+    } else {
+      socket.emit('registerError', { message: 'Tên người dùng đã tồn tại' });
+    }
+  });
