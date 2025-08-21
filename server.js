@@ -33,3 +33,10 @@ io.on('connection', (socket) => {
       socket.emit('loginError', { message: 'Tên người dùng hoặc mật khẩu không đúng' });
     }
   });
+ // Tham gia phòng chat
+  socket.on('joinRoom', (data) => {
+    socket.join(data.room);
+    socket.username = data.username;
+    onlineUsers.add(data.username);
+    io.emit('updateOnlineUsers', Array.from(onlineUsers));
+  });
