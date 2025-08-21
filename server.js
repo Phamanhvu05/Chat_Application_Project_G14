@@ -106,3 +106,16 @@ io.to(socket.id).emit('privateFile', data);
     profiles[data.username] = data.profile;
     socket.broadcast.emit('profileUpdate', { username: data.username, profile: data.profile });
   });
+// Xử lý ngắt kết nối
+  socket.on('disconnect', () => {
+    if (socket.username) {
+      onlineUsers.delete(socket.username);
+      io.emit('updateOnlineUsers', Array.from(onlineUsers));
+    }
+  });
+});
+
+const PORT = 3000;
+server.listen(PORT, () => {
+  console.log(`Server chạy trên cổng ${PORT}`);
+});
