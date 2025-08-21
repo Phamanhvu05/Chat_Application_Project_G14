@@ -101,3 +101,8 @@ io.to(socket.id).emit('privateFile', data);
       }
     }
   });
+ // Xử lý cập nhật profile
+  socket.on('updateProfile', (data) => {
+    profiles[data.username] = data.profile;
+    socket.broadcast.emit('profileUpdate', { username: data.username, profile: data.profile });
+  });
